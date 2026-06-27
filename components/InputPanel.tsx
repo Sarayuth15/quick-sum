@@ -62,7 +62,8 @@ export default function InputPanel() {
           value={input}
           onChange={handleChange}
           onPaste={handlePaste}
-          placeholder={"វាយបញ្ចូល ឬpastលេខនៅទីនេះ…\nType or paste numbers here…"}
+          // placeholder={"វាយបញ្ចូល ឬpastលេខនៅទីនេះ…\nType or paste numbers here…"}
+          placeholder={"វាយបញ្ចូល ឬpastលេខនៅទីនេះ…"}
           spellCheck={false}
           rows={12}
           style={{
