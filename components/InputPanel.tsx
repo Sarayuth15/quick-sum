@@ -6,7 +6,25 @@ export default function InputPanel() {
   const { input, setInput, calculate, clear, autoCalculate } = useCalculatorStore();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const normalize = (v: string) => v.replace(/[ \t]+/g, "\n");
+  const sanitizeLine = (line: string) => {
+    const trimmed = line.trim();
+    if (!trimmed) return "";
+
+    let cleaned = trimmed.replace(/[$,]/g, "");
+    const lastEquals = cleaned.lastIndexOf("=");
+    if (lastEquals >= 0) {
+      cleaned = cleaned.slice(lastEquals + 1);
+    }
+
+    return cleaned;
+  };
+
+  const normalize = (v: string) =>
+    v
+      .split(/[\n\r]+|[ \t]+/)
+      .map(sanitizeLine)
+      .filter(Boolean)
+      .join("\n");
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(normalize(e.target.value));

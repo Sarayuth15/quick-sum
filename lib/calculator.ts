@@ -18,8 +18,12 @@ export function parseNumber(raw: string, lineIndex: number): ParseResult {
   const trimmed = raw.trim();
   if (!trimmed) return { value: 0, raw, lineIndex, valid: false, error: "Empty line" };
 
-  // Remove commas used as thousand separators
-  const cleaned = trimmed.replace(/,/g, "");
+  let cleaned = trimmed.replace(/[$,]/g, "");
+  const lastEquals = cleaned.lastIndexOf("=");
+  if (lastEquals >= 0) {
+    cleaned = cleaned.slice(lastEquals + 1);
+  }
+  cleaned = cleaned.trim();
 
   // Check for invalid characters
   if (!/^-?\d+(\.\d+)?$/.test(cleaned)) {
